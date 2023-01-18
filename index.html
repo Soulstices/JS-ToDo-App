@@ -26,17 +26,29 @@
       }
     </script>
     <style>
-        .body-bg {
-            background-color: #9921e8;
+        .body-bg-light {
+            background-color: #5f72be;
             background-image: linear-gradient(315deg, #9921e8 0%, #5f72be 74%);
+        }
+        .body-bg-dark {
+            background-color: rgb(2,0,36);
+            background-image: linear-gradient(320deg, rgba(2,0,36,1) 0%, rgba(59,59,176,1) 0%, rgba(3,47,56,1) 100%);
         }
     </style>
 </head>
-<body class="body-bg min-h-screen pt-4 md:pt-4 pb-2 px-4 md:px-0" style="font-family:'Inter',sans-serif;">
-    <header class="max-w-lg mx-auto">
-        <a href="#">
-            <h1 class="text-2xl font-bold text-white text-center">To-Do App</h1>
+<body class="body-bg-light min-h-screen pt-4 md:pt-4 pb-2 px-4 md:px-0" style="font-family:'Inter',sans-serif;">
+    <header class="max-w-lg mx-auto flex flex-row pr-3 pl-3 pt-2 pb-1">
+        <a href="#" class="flex-1">
+            <h1 class="text-2xl font-bold text-white">To-Do App</h1>
         </a>
+        <button type="button" onclick="changeThemeBtn()" class="themebtn inline-block rounded border-2 
+        bg-slate-800 
+        border-gray-900 text-white leading-normal uppercase shadow-md 
+        hover:bg-slate-800  
+        hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg
+         ease-in-out w-9 h-9">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 mr-2" style="margin: auto;"><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" class="stroke-white dark:stroke-white"></path><path d="M12 4v1M17.66 6.344l-.828.828M20.005 12.004h-1M17.66 17.664l-.828-.828M12 20.01V19M6.34 17.664l.835-.836M3.995 12.004h1.01M6 6l.835.836" class="stroke-white dark:stroke-white"></path></svg>
+        </button>
     </header>
 
     <main class="bg-white max-w-lg mx-auto p-3 md:p-3 my-4 rounded-lg shadow-2xl">
@@ -57,7 +69,6 @@
                   bg-white bg-clip-padding
                   border border-solid border-gray-300
                   rounded
-                  transition
                   ease-in-out
                   m-0
                   focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
@@ -85,8 +96,10 @@
 
     </main>
 
-    <div class="max-w-lg mx-auto text-center mt-12 mb-6">
-        <p class="text-white"></p>
+    <div class="max-w-lg mx-auto text-center mt-6 mb-6">
+        <div class="flex space-x-2 justify-center">
+         
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
