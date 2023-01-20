@@ -205,6 +205,11 @@ function changeTheme() {
 	const container = document.querySelector('main');
 	const taskInput = document.querySelector('input.form-control');
 	const themeBtn = document.querySelectorAll('button.themebtn');
+	const modalContainer = document.querySelector('div.modal-content');
+	const modalCloseBtn = document.querySelector('button.modalclose');
+	const modalTitle = document.querySelector('h5.modal-title');
+	const modalHeader = document.querySelector('div.modal-header');
+	const modalBody = document.querySelector('div.modal-body');
 
 	console.log(themeBtn[0].innerHTML);
 
@@ -224,7 +229,7 @@ function changeTheme() {
 		taskInput.classList.add('focus:text-gray-200');
 		taskInput.classList.remove('focus:text-gray-700');
 		taskInput.classList.add('border-slate-500');
-		taskInput.classList.remove('border-gray-300');
+		taskInput.classList.remove('border-slate-300');
 
 		themeBtn[0].innerHTML =
 		`<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
@@ -235,6 +240,22 @@ function changeTheme() {
 		</svg>`
         themeBtn[0].classList.add('border-gray-700');
         themeBtn[0].classList.remove('border-gray-900');
+
+		modalBody.classList.remove('text-gray-800');
+		modalBody.classList.add('text-gray-400');
+		modalTitle.classList.remove('text-gray-800');
+		modalTitle.classList.add('text-gray-200');
+		modalHeader.classList.remove('border-gray-200');
+		modalHeader.classList.add('border-gray-700');
+		modalContainer.classList.remove('bg-white');
+		modalContainer.classList.add('bg-gray-800');
+		modalCloseBtn.classList.remove('bg-gray-500');
+		modalCloseBtn.classList.remove('text-gray-100');
+		modalCloseBtn.classList.remove('hover:bg-gray-600');
+		modalCloseBtn.classList.add('bg-gray-900');
+		modalCloseBtn.classList.add('text-gray-400');
+		modalCloseBtn.classList.add('hover:bg-gray-700');
+		modalCloseBtn.classList.add('hover:text-white');
 
 	} else {
 		body.classList.add('body-bg-light');
@@ -252,7 +273,7 @@ function changeTheme() {
 		taskInput.classList.remove('focus:text-gray-200');
 		taskInput.classList.add('focus:text-gray-700');
 		taskInput.classList.remove('border-slate-500');
-		taskInput.classList.add('border-blue-400');
+		taskInput.classList.add('border-slate-300');
 
 		themeBtn[0].innerHTML =
 		`<svg viewBox="0 0 24 24" fill="none" class="w-6 h-6 mr-2"  style="margin: auto;">
@@ -273,6 +294,21 @@ function changeTheme() {
         themeBtn[0].classList.remove('border-gray-700');
         themeBtn[0].classList.add('border-gray-900');
 
+		modalBody.classList.add('text-gray-800');
+		modalBody.classList.remove('text-gray-400');
+		modalTitle.classList.add('text-gray-800');
+		modalTitle.classList.remove('text-gray-200');
+		modalHeader.classList.add('border-gray-200');
+		modalHeader.classList.remove('border-gray-700');
+		modalContainer.classList.add('bg-white');
+		modalContainer.classList.remove('bg-gray-800');
+		modalCloseBtn.classList.add('bg-gray-500');
+		modalCloseBtn.classList.add('text-gray-100');
+		modalCloseBtn.classList.add('hover:bg-gray-600');
+		modalCloseBtn.classList.remove('bg-gray-900');
+		modalCloseBtn.classList.remove('text-gray-400');
+		modalCloseBtn.classList.remove('hover:bg-gray-700');
+		modalCloseBtn.classList.remove('hover:text-white');
 	}
 
 	renderTasks()

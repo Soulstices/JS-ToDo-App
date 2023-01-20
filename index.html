@@ -90,16 +90,66 @@
           
 
         </section>
-
-
-
-
     </main>
 
-    <div class="max-w-lg mx-auto text-center mt-6 mb-6">
+    <div class="max-w-lg mx-auto text-center mt-7 mb-6">
         <div class="flex space-x-2 justify-center">
-         
+         <p class="text-gray-400 text-sm">v0.03 | <a href="" onclick="" class="text-white" data-bs-toggle="modal" data-bs-target="#ModalScrollable">Changelog</a></p>
         </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
+    id="ModalScrollable" tabindex="-1" aria-labelledby="ModalScrollableLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable relative w-auto pointer-events-none">
+        <div
+        class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
+        <div
+          class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
+          <h5 class="modal-title text-xl font-medium leading-normal text-gray-800" id="ModalScrollableLabel">
+          Changelog
+          </h5>
+          <button 
+          onclick=""
+          type="button" class="
+          modalclose
+          bg-gray-500 text-gray-100 hover:bg-gray-600
+          inline-block rounded-full leading-normal uppercase shadow-md 
+          hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 
+          active:shadow-lg transition duration-150 ease-in-out w-9 h-9"
+          data-bs-dismiss="modal"
+          aria-label="Close">
+          <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 12 16" height="16px" width="16px" 
+          xmlns="http://www.w3.org/2000/svg" style="margin: auto;">
+          <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 
+          6.52l3.75-3.75 1.48 1.48L7.48 8z" class=""></path></svg>
+        </button>
+        </div>
+        <div class="modal-body relative p-4">
+          <strong>Version 0.03</strong>
+          <ul class="pl-5" style="list-style: disc;">
+            <li>Added changelog</li>
+            <li>Added app version in a footer</li>
+            <li>Added modal box functionality</li>
+            <li>Fixed task input box border color</li>
+          </ul>
+          <br>
+          <strong>Version 0.02</strong>
+          <ul class="pl-5" style="list-style: disc;">
+            <li>Added dark mode</li>
+            <img src="img/theme-change.png" alt="" style="border-radius: 5px;">
+            <li>Added switch theme button</li>
+            <li>Redesigned remove task button</li>
+            <li>Implemented settings saving</li>
+          </ul>
+          <br>
+          <strong>Version 0.01</strong>
+          <ul class="pl-5" style="list-style: disc;">
+            <li>Basic functionality</li>
+          </ul>
+        </div>
+        </div>
+      </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
