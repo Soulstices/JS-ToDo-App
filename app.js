@@ -211,8 +211,6 @@ function changeTheme() {
 	const modalHeader = document.querySelector('div.modal-header');
 	const modalBody = document.querySelector('div.modal-body');
 
-	console.log(themeBtn[0].innerHTML);
-
 	if (settings.theme === 'dark') {
 		body.classList.remove('body-bg-light');
 		body.classList.add('body-bg-dark');
@@ -238,8 +236,6 @@ function changeTheme() {
 			<path d="M12 4v1M17.66 6.344l-.828.828M20.005 12.004h-1M17.66 17.664l-.828-.828M12 
 			20.01V19M6.34 17.664l.835-.836M3.995 12.004h1.01M6 6l.835.836" class="stroke-white dark:stroke-white"></path>
 		</svg>`
-        themeBtn[0].classList.add('border-gray-700');
-        themeBtn[0].classList.remove('border-gray-900');
 
 		modalBody.classList.remove('text-gray-800');
 		modalBody.classList.add('text-gray-400');
@@ -291,8 +287,6 @@ function changeTheme() {
 			2 2 0 0 0-2 2 1 1 0 1 1-2 0 2 2 0 0 0-2-2 1 1 0 1 1 0-2 2 2 0 0 0 2-2 1 1 0 0 1 1-1Z" 
 			class="fill-white"></path>
 		</svg>`
-        themeBtn[0].classList.remove('border-gray-700');
-        themeBtn[0].classList.add('border-gray-900');
 
 		modalBody.classList.add('text-gray-800');
 		modalBody.classList.remove('text-gray-400');
