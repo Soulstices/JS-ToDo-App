@@ -78,8 +78,6 @@ function checkboxClicked(id, checked) {
 
 	saveTasks();
 	renderTasks();
-
-	// console.log(tasks.find(element => element.id === id).isChecked);
 }
 
 // Remove single task
@@ -199,8 +197,6 @@ function changeThemeBtn() {
 }
 
 function changeTheme() {
-	console.log(settings.theme)
-
 	const body = document.querySelector('body');
 	const container = document.querySelector('main');
 	const taskInput = document.querySelector('input.form-control');
