@@ -1,18 +1,28 @@
 'use strict';
 
+const CURRENT_VERSION = '0.04';
+const PAGE_URL = (new URL(window.location.href)); // very long URL can cause issues, saving data in URL is not good for production
+
 let tasks = []; // Stores all tasks locally
+let encodedData = ''; // Data encoded with Base64 and put into the URL
 let settings = {
 	theme: 'light'
 }; 
 
 // App Initialization
 (() => {
-	console.log('App Init')
+	updateVersion()
 	loadSettings();
 	changeTheme();
 	loadTasks();
 	renderTasks();
+	console.log('App Init')
 })();
+
+// Updates HTML footer with CURRENT_VERSION variable
+function updateVersion() {
+	document.querySelector('version').innerHTML = 'v' + CURRENT_VERSION;
+}
 
 // Event which happens on "ADD" button click
 function addTaskBtn() {
@@ -40,28 +50,70 @@ function addTask(text, isChecked = false) {
 
 // Saves all tasks from tasks array to local storage
 function saveTasks() {
+	let acc = []
+
 	for (const task of tasks) {
 		localStorage.setItem(task.id, JSON.stringify(task));
+		acc.push(JSON.stringify(task));
+		encodedData = Base64.encode(acc.toString());
 	}
+
+	updateURL()
+}
+
+function updateURL() {
+	let newURL = PAGE_URL.origin + '?' + encodedData;
+	history.pushState({}, null, newURL);
+}
+
+// Checks if URL contains information required to load tasks
+function containsData() {
+	return PAGE_URL.search.length > 0
 }
 
 // Gets all tasks from local storage, loads them to tasks array and sorts them by date
 function loadTasks() {
 	tasks = [];
 
-	for (const entry of Object.entries(localStorage)) {
-		if (entry[0] !== 'settings') {
-			tasks.push((JSON.parse(entry[1])));
+	if (containsData() === true) {
+		const settings = localStorage.getItem('settings')
+		localStorage.clear();
+		localStorage.setItem('settings', settings)
+		encodedData = PAGE_URL.search.replace('?', '');
+		
+		// Check if data in the URL is valid
+		try {
+			JSON.parse('[' + Base64.decode(encodedData) + ']');
+		} catch (e) {
+			console.log('Data in the URL is not valid')
+			encodedData = '';
+			updateURL();
+			return false;
+		}
+		
+		let decodedData = JSON.parse('[' + Base64.decode(encodedData) + ']');
+
+		for (const entry of decodedData) {
+			localStorage.setItem(entry.id, JSON.stringify(entry))
+		}
+		
+		for (const entry of Object.entries(localStorage)) {
+			if (entry[0] !== 'settings') {
+				tasks.push((JSON.parse(entry[1])));
+			};
 		};
-	};
+
+	} else {
+		for (const entry of Object.entries(localStorage)) {
+			if (entry[0] !== 'settings') {
+				tasks.push((JSON.parse(entry[1])));
+			};
+		};
+	}
+
 
 	tasks.sort((a, b) => a.date - b.date);
 
-}
-
-// Counts tasks in local storage
-function countTasks() {
-	return localStorage.length;
 }
 
 // Event which happens on checkbox click
@@ -83,7 +135,15 @@ function checkboxClicked(id, checked) {
 // Remove single task
 function removeTask(id) {
 	localStorage.removeItem(id);
-	loadTasks();
+	tasks.splice(tasks.findIndex(element => element.id === id), 1);
+	saveTasks();
+
+	if (tasks.length === 0) {
+		encodedData = '';
+		updateURL()
+	}
+
+	// loadTasks();
 	renderTasks();
 }
 
@@ -138,7 +198,7 @@ function renderTask(task) {
 			${task.text}
 		  </label>
 		  <button 
-		  id="${tasks.id}"
+		  id="${task.id}"
 		  onclick="removeTask('${task.id}')"
 		  type="button" class="
 		  
@@ -183,6 +243,8 @@ document.getElementsByClassName('form-control')[0].addEventListener("keydown", (
 function loadSettings() {
 	if (localStorage.getItem('settings')) {
 		settings = JSON.parse(localStorage.getItem('settings'));
+	} else {
+		localStorage.setItem('settings', JSON.stringify(settings))
 	}
 }
 
