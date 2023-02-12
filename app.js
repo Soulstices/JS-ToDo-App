@@ -384,6 +384,7 @@ function loadChangelogModal() {
 		'rgb(0 255 64);' : 
 		'#005aff'
 	}">Tasks Sharing Update</strong>
+	<strong> - 11.02.2023</strong>
 	<ul class="pl-5" style="list-style: disc;">
 	  <li>Implemented URL sharing</li>
 	  <li><strong style="color: #ef3535">Known issue:</strong> Too long task-lists can cause issues due to long URL</li>
@@ -394,7 +395,7 @@ function loadChangelogModal() {
 	  <li>Removed unused code</li>
 	</ul>
 	<br>
-	<strong>Version 0.03</strong>
+	<strong>Version 0.03 - 20.01.2023</strong>
 	<ul class="pl-5" style="list-style: disc;">
 	  <li>Added changelog</li>
 	  <li>Added app version in a footer</li>
@@ -402,7 +403,7 @@ function loadChangelogModal() {
 	  <li>Fixed task input box border color</li>
 	</ul>
 	<br>
-	<strong>Version 0.02</strong>
+	<strong>Version 0.02 - 18.01.2023</strong>
 	<ul class="pl-5" style="list-style: disc;">
 	  <li>Added dark mode</li>
 	  <img src="img/theme-change.png" alt="" style="border-radius: 5px;">
@@ -411,7 +412,7 @@ function loadChangelogModal() {
 	  <li>Implemented settings saving</li>
 	</ul>
 	<br>
-	<strong>Version 0.01</strong>
+	<strong>Version 0.01 - 18.01.2023</strong>
 	<ul class="pl-5" style="list-style: disc;">
 	  <li>Basic functionality</li>
 	</ul>
