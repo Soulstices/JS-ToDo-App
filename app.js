@@ -365,3 +365,54 @@ function changeTheme() {
 
 	renderTasks()
 }
+
+function loadModal(title, content) {
+	document.querySelector('h5.modal-title').innerHTML = title;
+	document.querySelector('div.modal-body').innerHTML = content;
+}
+
+function loadChangelogModal() {
+	let title = 'Changelog'
+	let content = `
+	<strong>Version 0.04 - </strong> 
+	<strong style="color: 
+	${
+		(settings.theme === 'dark') ? 
+		'rgb(0 255 64);' : 
+		'#005aff'
+	}">Tasks Sharing Update</strong>
+	<ul class="pl-5" style="list-style: disc;">
+	  <li>Implemented URL sharing</li>
+	  <li><strong style="color: #ef3535">Known issue:</strong> Too long task-lists can cause issues due to long URL</li>
+	  <li>Implemented multiple URL validations</li>
+	  <li>Added Base64 library to encode/decode local storage</li>
+	  <li>Moved version string from HTML to JS</li>
+	  <li>Recolored theme switch button frame of light theme</li>
+	  <li>Removed unused code</li>
+	</ul>
+	<br>
+	<strong>Version 0.03</strong>
+	<ul class="pl-5" style="list-style: disc;">
+	  <li>Added changelog</li>
+	  <li>Added app version in a footer</li>
+	  <li>Added modal box functionality</li>
+	  <li>Fixed task input box border color</li>
+	</ul>
+	<br>
+	<strong>Version 0.02</strong>
+	<ul class="pl-5" style="list-style: disc;">
+	  <li>Added dark mode</li>
+	  <img src="img/theme-change.png" alt="" style="border-radius: 5px;">
+	  <li>Added switch theme button</li>
+	  <li>Redesigned remove task button</li>
+	  <li>Implemented settings saving</li>
+	</ul>
+	<br>
+	<strong>Version 0.01</strong>
+	<ul class="pl-5" style="list-style: disc;">
+	  <li>Basic functionality</li>
+	</ul>
+	`
+
+	loadModal(title, content)
+}

@@ -94,7 +94,7 @@
 
     <div class="max-w-lg mx-auto text-center mt-7 mb-6">
         <div class="flex space-x-2 justify-center">
-         <p class="text-gray-400 text-sm"><version>v0.00</version> | <a href="" onclick="" class="text-white" data-bs-toggle="modal" data-bs-target="#ModalScrollable">Changelog</a></p>
+         <p class="text-gray-400 text-sm"><version>v0.00</version> | <a href="" onclick="loadChangelogModal()" class="text-white" data-bs-toggle="modal" data-bs-target="#ModalScrollable">Changelog</a></p>
         </div>
     </div>
 
@@ -107,7 +107,6 @@
         <div
           class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
           <h5 class="modal-title text-xl font-medium leading-normal text-gray-800" id="ModalScrollableLabel">
-          Changelog
           </h5>
           <button 
           onclick=""
@@ -126,38 +125,6 @@
         </button>
         </div>
         <div class="modal-body relative p-4">
-          <strong>Version 0.04 - </strong> <strong style="color: rgb(0, 168, 42)">You can share your task lists now!</strong>
-          <ul class="pl-5" style="list-style: disc;">
-            <li>Implemented URL sharing</li>
-            <li><strong style="color: #ef3535">Known issue:</strong> Too long task-lists can cause issues due to long URL</li>
-            <li>Implemented multiple URL validations</li>
-            <li>Added Base64 library to encode/decode local storage</li>
-            <li>Moved version string from HTML to JS</li>
-            <li>Recolored theme switch button frame of light theme</li>
-            <li>Removed unused code</li>
-          </ul>
-          <br>
-          <strong>Version 0.03</strong>
-          <ul class="pl-5" style="list-style: disc;">
-            <li>Added changelog</li>
-            <li>Added app version in a footer</li>
-            <li>Added modal box functionality</li>
-            <li>Fixed task input box border color</li>
-          </ul>
-          <br>
-          <strong>Version 0.02</strong>
-          <ul class="pl-5" style="list-style: disc;">
-            <li>Added dark mode</li>
-            <img src="img/theme-change.png" alt="" style="border-radius: 5px;">
-            <li>Added switch theme button</li>
-            <li>Redesigned remove task button</li>
-            <li>Implemented settings saving</li>
-          </ul>
-          <br>
-          <strong>Version 0.01</strong>
-          <ul class="pl-5" style="list-style: disc;">
-            <li>Basic functionality</li>
-          </ul>
         </div>
         </div>
       </div>
