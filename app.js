@@ -62,7 +62,7 @@ function saveTasks() {
 }
 
 function updateURL() {
-	let newURL = PAGE_URL.origin + '?' + encodedData;
+	let newURL = PAGE_URL.origin + PAGE_URL.pathname + '?' + encodedData;
 	history.pushState({}, null, newURL);
 }
 
