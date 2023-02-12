@@ -1,6 +1,6 @@
 "use strict";
 
-const CURRENT_VERSION = "0.04";
+const CURRENT_VERSION = "0.05";
 const PAGE_URL = new URL(window.location.href); // very long URL can cause issues, saving data in URL is not good for production
 const GO_TO_TOP_BUTTON = document.getElementById("to-top-button");
 
@@ -290,6 +290,8 @@ function changeTheme() {
   const modalHeader = document.querySelector("div.modal-header");
   const modalBody = document.querySelector("div.modal-body");
 
+  changeScrollbar();
+
   if (settings.theme === "dark") {
     body.classList.remove("body-bg-light");
     body.classList.add("body-bg-dark");
@@ -384,6 +386,26 @@ function changeTheme() {
   renderTasks();
 }
 
+function changeScrollbar() {
+  document.getElementById("scrollbar-style").innerHTML =
+    settings.theme === "dark"
+      ? `      .modal-body::-webkit-scrollbar-thumb {
+        background: rgb(75 85 99); 
+      }
+
+      .modal-body::-webkit-scrollbar-thumb:hover {
+        background: rgb(75 85 99); 
+      }`
+      : `      .modal-body::-webkit-scrollbar-thumb {
+        background: rgb(156 163 175); 
+		padding: 10px;
+      }
+
+      .modal-body::-webkit-scrollbar-thumb:hover {
+        background: rgb(156 163 175); 
+      }`;
+}
+
 function loadModal(title, content) {
   document.querySelector("h5.modal-title").innerHTML = title;
   document.querySelector("div.modal-body").innerHTML = content;
@@ -392,6 +414,21 @@ function loadModal(title, content) {
 function loadChangelogModal() {
   let title = "Changelog";
   let content = `
+	<strong>Version 0.05 - 12.02.2023</strong><br>
+	<strong style="color: 
+	${
+    settings.theme === "dark" ? "rgb(0 255 64);" : "#005aff"
+  }">Usability Improvements</strong>
+	<ul class="pl-5" style="list-style: disc;">
+	<li>Implemented lazy-loading for modal boxes</li>
+		<li>Added scroll back to top button</li>
+		<img src="img/back-to-top.png" alt="" style="border-radius: 5px;">
+		<li>Added dates of each version to the changelog</li>
+		<li>Fixed line-breaking when tasks had too long title</li>
+		<li>Redesigned modal box scrollbar</li>
+		<li>Set scrollbar width to 0px</li>
+	</ul>
+	<br>
 	<strong>Version 0.04 - 11.02.2023</strong><br>
 	<strong style="color: 
 	${
@@ -447,7 +484,7 @@ window.onscroll = function () {
 
 function toggleToTopVisibility(isVisible) {
   if (isVisible) {
-	GO_TO_TOP_BUTTON.classList.add("opacity-100");
+    GO_TO_TOP_BUTTON.classList.add("opacity-100");
     GO_TO_TOP_BUTTON.classList.remove("opacity-0");
   } else {
     GO_TO_TOP_BUTTON.classList.add("opacity-0");
