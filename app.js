@@ -182,7 +182,7 @@ function renderTask(task) {
 		  margin-top: auto;
 		  margin-bottom: auto;
 		  " onclick="checkboxClicked('${task.id}', checked);" ${task.isChecked ? 'checked' : ''}>
-		  <label class="form-check-label inline-block 
+		  <label class="form-check-label inline-block pl-1 pr-2 
 		  
 		  ${
 			(settings.theme === 'dark') ? 
@@ -194,14 +194,16 @@ function renderTask(task) {
 		  style="
 		  margin-top: auto;
 		  margin-bottom: auto;
+		  overflow-wrap: anywhere;
 		  ">
 			${task.text}
 		  </label>
 		  <button 
 		  id="${task.id}"
 		  onclick="removeTask('${task.id}')"
-		  type="button" class="
-		  
+		  type="button" 
+		  style="margin-top: auto; margin-bottom: auto;"
+		  class="
 		  ${
 			(settings.theme === 'dark') ? 
 			(task.isChecked ? 'bg-gray-900 text-gray-400 hover:bg-gray-800 hover:text-white' : 'bg-gray-900 text-gray-400 hover:bg-gray-700 hover:text-white') : 
@@ -212,7 +214,8 @@ function renderTask(task) {
 		  hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 
 		  active:shadow-lg transition duration-150 ease-in-out w-9 h-9">
 		  <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 12 16" height="16px" width="16px" 
-		  xmlns="http://www.w3.org/2000/svg" style="margin: auto;">
+		  xmlns="http://www.w3.org/2000/svg" 
+		  style="margin: auto;">
 		  <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 
 		  6.52l3.75-3.75 1.48 1.48L7.48 8z" class=""></path></svg>
 		</button>
