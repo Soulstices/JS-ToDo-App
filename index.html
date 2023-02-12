@@ -1,18 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>To Do App</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico?v=3">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-	<meta name="author" content="Hennadii Bohdanov">
-    <meta name="description" content="">
+    <link rel="icon" type="image/x-icon" href="favicon.ico?v=3" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <meta name="author" content="Hennadii Bohdanov" />
+    <meta name="description" content="" />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="base64.js"></script>
     <script>
@@ -20,117 +29,172 @@
         theme: {
           extend: {
             fontFamily: {
-              sans: ['Inter', 'sans-serif'],
+              sans: ["Inter", "sans-serif"],
             },
-          }
-        }
-      }
+          },
+        },
+      };
     </script>
     <style>
-        .body-bg-light {
-            background-color: #5f72be;
-            background-image: linear-gradient(315deg, #9921e8 0%, #5f72be 74%);
-        }
-        .body-bg-dark {
-            background-color: rgb(2,0,36);
-            background-image: linear-gradient(320deg, rgba(2,0,36,1) 0%, rgba(59,59,176,1) 0%, rgba(3,47,56,1) 100%);
-        }
+      .body-bg-light {
+        background-color: #5f72be;
+        background-image: linear-gradient(315deg, #9921e8 0%, #5f72be 74%);
+      }
+      .body-bg-dark {
+        background-color: rgb(2, 0, 36);
+        background-image: linear-gradient(
+          320deg,
+          rgba(2, 0, 36, 1) 0%,
+          rgba(59, 59, 176, 1) 0%,
+          rgba(3, 47, 56, 1) 100%
+        );
+      }
+
+      ::-webkit-scrollbar {
+        width: 0px;
+      }
     </style>
-</head>
-<body class="body-bg-light min-h-screen pt-4 md:pt-4 pb-2 px-4 md:px-0" style="font-family:'Inter',sans-serif;">
+    <style id="scrollbar-style"></style>
+  </head>
+  <body
+    class="body-bg-light min-h-screen pt-4 md:pt-4 pb-2 px-4 md:px-0"
+    style="font-family: 'Inter', sans-serif"
+  >
     <header class="max-w-lg mx-auto flex flex-row pr-3 pl-3 pt-2 pb-1">
-        <a href="#" class="flex-1">
-            <h1 class="text-2xl font-bold text-white">To-Do App</h1>
-        </a>
-        <button type="button" onclick="changeThemeBtn()" class="themebtn inline-block rounded border-2 
-        bg-slate-800 
-        border-gray-700 text-white leading-normal uppercase shadow-md 
-        hover:bg-slate-800  
-        hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg
-         ease-in-out w-9 h-9">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 mr-2" style="margin: auto;"><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" class="stroke-white dark:stroke-white"></path><path d="M12 4v1M17.66 6.344l-.828.828M20.005 12.004h-1M17.66 17.664l-.828-.828M12 20.01V19M6.34 17.664l.835-.836M3.995 12.004h1.01M6 6l.835.836" class="stroke-white dark:stroke-white"></path></svg>
-        </button>
+      <a href="#" class="flex-1">
+        <h1 class="text-2xl font-bold text-white">To-Do App</h1>
+      </a>
+      <button
+        type="button"
+        onclick="changeThemeBtn()"
+        class="themebtn inline-block rounded border-2 bg-slate-800 border-gray-700 text-white leading-normal uppercase shadow-md hover:bg-slate-800 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg ease-in-out w-9 h-9"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="w-6 h-6 mr-2"
+          style="margin: auto"
+        >
+          <path
+            d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+            class="stroke-white dark:stroke-white"
+          ></path>
+          <path
+            d="M12 4v1M17.66 6.344l-.828.828M20.005 12.004h-1M17.66 17.664l-.828-.828M12 20.01V19M6.34 17.664l.835-.836M3.995 12.004h1.01M6 6l.835.836"
+            class="stroke-white dark:stroke-white"
+          ></path>
+        </svg>
+      </button>
     </header>
 
-    <main class="bg-white max-w-lg mx-auto p-3 md:p-3 my-4 rounded-lg shadow-2xl">
-        <section>
-          <div class="flex justify-center">
-            <div class="mb-0 w-full">
-              <input
-                type="text"
-                class="
-                  form-control
-                  block
-                  w-full
-                  px-3
-                  py-1.5
-                  text-base
-                  font-normal
-                  text-gray-700
-                  bg-white bg-clip-padding
-                  border border-solid border-gray-300
-                  rounded
-                  ease-in-out
-                  m-0
-                  focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                "
-                id="exampleFormControlInput1"
-                placeholder="Enter a task"
-              />
-              
-            </div>
-            <div class="flex space-x-2 justify-center pl-1">
-              <button type="button" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-              onclick="addTaskBtn()">Add</button>
-            </div>
+    <main
+      class="bg-white max-w-lg mx-auto p-3 md:p-3 my-4 rounded-lg shadow-2xl"
+    >
+      <section>
+        <div class="flex justify-center">
+          <div class="mb-0 w-full">
+            <input
+              type="text"
+              class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              id="exampleFormControlInput1"
+              placeholder="Enter a task"
+            />
           </div>
+          <div class="flex space-x-2 justify-center pl-1">
+            <button
+              type="button"
+              class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+              onclick="addTaskBtn()"
+            >
+              Add
+            </button>
+          </div>
+        </div>
 
-          <section id="task-list">
-          </section>
-
-
-        </section>
+        <section id="task-list"></section>
+      </section>
     </main>
 
-    <div class="max-w-lg mx-auto text-center mt-7 mb-6">
-        <div class="flex space-x-2 justify-center">
-         <p class="text-gray-400 text-sm"><version>v0.00</version> | <a href="" onclick="loadChangelogModal()" class="text-white" data-bs-toggle="modal" data-bs-target="#ModalScrollable">Changelog</a></p>
-        </div>
+    <div class="max-w-lg mx-auto text-center mt-7 mb-12 pb-3">
+      <div class="flex space-x-2 justify-center">
+        <p class="text-gray-400 text-sm">
+          <version>v0.00</version> |
+          <a
+            href=""
+            onclick="loadChangelogModal()"
+            class="text-white"
+            data-bs-toggle="modal"
+            data-bs-target="#ModalScrollable"
+            >Changelog</a
+          >
+        </p>
+      </div>
     </div>
-
     <!-- Modal -->
-    <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
-    id="ModalScrollable" tabindex="-1" aria-labelledby="ModalScrollableLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-scrollable relative w-auto pointer-events-none">
+    <div
+      class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
+      id="ModalScrollable"
+      tabindex="-1"
+      aria-labelledby="ModalScrollableLabel"
+      aria-hidden="true"
+    >
+      <div
+        class="modal-dialog modal-dialog-scrollable modal-lg relative w-auto pointer-events-none"
+      >
         <div
-        class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
-        <div
-          class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
-          <h5 class="modal-title text-xl font-medium leading-normal text-gray-800" id="ModalScrollableLabel">
-          </h5>
-          <button 
-          onclick=""
-          type="button" class="
-          modalclose
-          bg-gray-500 text-gray-100 hover:bg-gray-600
-          inline-block rounded-full leading-normal uppercase shadow-md 
-          hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 
-          active:shadow-lg transition duration-150 ease-in-out w-9 h-9"
-          data-bs-dismiss="modal"
-          aria-label="Close">
-          <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 12 16" height="16px" width="16px" 
-          xmlns="http://www.w3.org/2000/svg" style="margin: auto;">
-          <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 
-          6.52l3.75-3.75 1.48 1.48L7.48 8z" class=""></path></svg>
-        </button>
-        </div>
-        <div class="modal-body relative p-4">
-        </div>
+          class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current"
+        >
+          <div
+            class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md"
+          >
+            <h5
+              class="modal-title text-xl font-medium leading-normal text-gray-800"
+              id="ModalScrollableLabel"
+            ></h5>
+            <button
+              onclick=""
+              type="button"
+              class="modalclose bg-gray-500 text-gray-100 hover:bg-gray-600 inline-block rounded-full leading-normal uppercase shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-9 h-9"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <svg
+                stroke="currentColor"
+                fill="currentColor"
+                stroke-width="0"
+                viewBox="0 0 12 16"
+                height="16px"
+                width="16px"
+                xmlns="http://www.w3.org/2000/svg"
+                style="margin: auto"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 
+          6.52l3.75-3.75 1.48 1.48L7.48 8z"
+                  class=""
+                ></path>
+              </svg>
+            </button>
+          </div>
+          <div class="modal-body relative p-4"></div>
         </div>
       </div>
     </div>
 
+    <button
+      id="to-top-button"
+      onclick="goToTop()"
+      title="Go To Top"
+      class="opacity-0 fixed border-2 bg-blue-800 border-gray-900 m-auto left-0 right-0 bottom-4 w-10 h-10 rounded-full text-white text-xl font-bold transition-opacity"
+    >
+      &uarr;
+    </button>
+
     <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
     <script src="app.js"></script>
-</body>
+  </body>
 </html>

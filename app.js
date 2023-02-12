@@ -1,179 +1,183 @@
-'use strict';
+"use strict";
 
-const CURRENT_VERSION = '0.04';
-const PAGE_URL = (new URL(window.location.href)); // very long URL can cause issues, saving data in URL is not good for production
+const CURRENT_VERSION = "0.04";
+const PAGE_URL = new URL(window.location.href); // very long URL can cause issues, saving data in URL is not good for production
+const GO_TO_TOP_BUTTON = document.getElementById("to-top-button");
 
 let tasks = []; // Stores all tasks locally
-let encodedData = ''; // Data encoded with Base64 and put into the URL
+let encodedData = ""; // Data encoded with Base64 and put into the URL
 let settings = {
-	theme: 'light'
-}; 
+  theme: "light",
+};
 
 // App Initialization
 (() => {
-	updateVersion()
-	loadSettings();
-	changeTheme();
-	loadTasks();
-	renderTasks();
-	console.log('App Init')
+  updateVersion();
+  loadSettings();
+  changeTheme();
+  loadTasks();
+  renderTasks();
+  console.log("App Init");
 })();
 
 // Updates HTML footer with CURRENT_VERSION variable
 function updateVersion() {
-	document.querySelector('version').innerHTML = 'v' + CURRENT_VERSION;
+  document.querySelector("version").innerHTML = "v" + CURRENT_VERSION;
 }
 
 // Event which happens on "ADD" button click
 function addTaskBtn() {
-	const taskText = document.getElementsByClassName('form-control')[0].value;
-	if (taskText) {
-		addTask(taskText);
-		saveTasks();
+  const taskText = document.getElementsByClassName("form-control")[0].value;
+  if (taskText) {
+    addTask(taskText);
+    saveTasks();
 
-		document.getElementsByClassName('form-control')[0].value = '';
-	}
+    document.getElementsByClassName("form-control")[0].value = "";
+  }
 }
 
 // Creates a new task, pushes it to tasks array and renders it
 function addTask(text, isChecked = false) {
+  const newTask = {
+    id: generateUID(),
+    text,
+    isChecked,
+    date: Date.now(),
+  };
 
-	const newTask = {
-		id: generateUID(),
-		text,
-		isChecked,
-		date: Date.now()
-	}
-
-	renderTask(tasks[tasks.push(newTask) - 1]);
+  renderTask(tasks[tasks.push(newTask) - 1]);
 }
 
 // Saves all tasks from tasks array to local storage
 function saveTasks() {
-	let acc = []
+  let acc = [];
 
-	for (const task of tasks) {
-		localStorage.setItem(task.id, JSON.stringify(task));
-		acc.push(JSON.stringify(task));
-		encodedData = Base64.encode(acc.toString());
-	}
+  for (const task of tasks) {
+    localStorage.setItem(task.id, JSON.stringify(task));
+    acc.push(JSON.stringify(task));
+    encodedData = Base64.encode(acc.toString());
+  }
 
-	updateURL()
+  updateURL();
 }
 
 function updateURL() {
-	let newURL = PAGE_URL.origin + PAGE_URL.pathname + '?' + encodedData;
-	history.pushState({}, null, newURL);
+  let newURL = PAGE_URL.origin + PAGE_URL.pathname + "?" + encodedData;
+  history.pushState({}, null, newURL);
 }
 
 // Checks if URL contains information required to load tasks
 function containsData() {
-	return PAGE_URL.search.length > 0
+  return PAGE_URL.search.length > 0;
 }
 
 // Gets all tasks from local storage, loads them to tasks array and sorts them by date
 function loadTasks() {
-	tasks = [];
+  tasks = [];
 
-	if (containsData() === true) {
-		const settings = localStorage.getItem('settings')
-		localStorage.clear();
-		localStorage.setItem('settings', settings)
-		encodedData = PAGE_URL.search.replace('?', '');
-		
-		// Check if data in the URL is valid
-		try {
-			JSON.parse('[' + Base64.decode(encodedData) + ']');
-		} catch (e) {
-			console.log('Data in the URL is not valid')
-			encodedData = '';
-			updateURL();
-			return false;
-		}
-		
-		let decodedData = JSON.parse('[' + Base64.decode(encodedData) + ']');
+  if (containsData() === true) {
+    const settings = localStorage.getItem("settings");
+    localStorage.clear();
+    localStorage.setItem("settings", settings);
+    encodedData = PAGE_URL.search.replace("?", "");
 
-		for (const entry of decodedData) {
-			localStorage.setItem(entry.id, JSON.stringify(entry))
-		}
-		
-		for (const entry of Object.entries(localStorage)) {
-			if (entry[0] !== 'settings') {
-				tasks.push((JSON.parse(entry[1])));
-			};
-		};
+    // Check if data in the URL is valid
+    try {
+      JSON.parse("[" + Base64.decode(encodedData) + "]");
+    } catch (e) {
+      console.log("Data in the URL is not valid");
+      encodedData = "";
+      updateURL();
+      return false;
+    }
 
-	} else {
-		for (const entry of Object.entries(localStorage)) {
-			if (entry[0] !== 'settings') {
-				tasks.push((JSON.parse(entry[1])));
-			};
-		};
-	}
+    let decodedData = JSON.parse("[" + Base64.decode(encodedData) + "]");
 
+    for (const entry of decodedData) {
+      localStorage.setItem(entry.id, JSON.stringify(entry));
+    }
 
-	tasks.sort((a, b) => a.date - b.date);
+    for (const entry of Object.entries(localStorage)) {
+      if (entry[0] !== "settings") {
+        tasks.push(JSON.parse(entry[1]));
+      }
+    }
+  } else {
+    for (const entry of Object.entries(localStorage)) {
+      if (entry[0] !== "settings") {
+        tasks.push(JSON.parse(entry[1]));
+      }
+    }
+  }
 
+  tasks.sort((a, b) => a.date - b.date);
 }
 
 // Event which happens on checkbox click
 function checkboxClicked(id, checked) {
-	const checkbox = document.getElementsByClassName(`checkbox-${id}`)[0];
+  const checkbox = document.getElementsByClassName(`checkbox-${id}`)[0];
 
-	if (checked) {
-		checkbox.setAttribute('checked', true);
-		tasks.find(element => element.id === id).isChecked = true;
-	} else {
-		checkbox.setAttribute('checked', false);
-		tasks.find(element => element.id === id).isChecked = false;
-	}
+  if (checked) {
+    checkbox.setAttribute("checked", true);
+    tasks.find((element) => element.id === id).isChecked = true;
+  } else {
+    checkbox.setAttribute("checked", false);
+    tasks.find((element) => element.id === id).isChecked = false;
+  }
 
-	saveTasks();
-	renderTasks();
+  saveTasks();
+  renderTasks();
 }
 
 // Remove single task
 function removeTask(id) {
-	localStorage.removeItem(id);
-	tasks.splice(tasks.findIndex(element => element.id === id), 1);
-	saveTasks();
+  localStorage.removeItem(id);
+  tasks.splice(
+    tasks.findIndex((element) => element.id === id),
+    1
+  );
+  saveTasks();
 
-	if (tasks.length === 0) {
-		encodedData = '';
-		updateURL()
-	}
+  if (tasks.length === 0) {
+    encodedData = "";
+    updateURL();
+  }
 
-	// loadTasks();
-	renderTasks();
+  // loadTasks();
+  renderTasks();
 }
 
 // Generate unique ID for a task
 // Not the best way, because Math.random() can cause issues
 function generateUID() {
-	return Date.now().toString(36) + Math.random().toString(36).substring(2);
+  return Date.now().toString(36) + Math.random().toString(36).substring(2);
 }
 
 // Render a single task
 function renderTask(task) {
-		const container = document.getElementById('task-list');
-		const html = `<div class="flex w-full" >
+  const container = document.getElementById("task-list");
+  const html = `<div class="flex w-full" >
 		<div class="flex flex-row mt-2 p-4 rounded-lg border 
 
 		${
-			(settings.theme === 'dark') ? 
-			(task.isChecked ? 'bg-emerald-900 border-emerald-700' : 'bg-gray-800 border-gray-700') : 
-			(task.isChecked ? 'bg-green-200 border-green-300' : 'bg-gray-200 border-gray-300')
-		}
+      settings.theme === "dark"
+        ? task.isChecked
+          ? "bg-emerald-900 border-emerald-700"
+          : "bg-gray-800 border-gray-700"
+        : task.isChecked
+        ? "bg-green-200 border-green-300"
+        : "bg-gray-200 border-gray-300"
+    }
 
 		 form-check w-full div-${task.id}">
 		  <input class="checkbox-${task.id} 
 		  form-check-input appearance-none h-4 w-4 border rounded-sm 
 
 		  ${
-			(settings.theme === 'dark') ? 
-			'bg-slate-600 checked:bg-green-700 checked:border-green-600 border-slate-500' : 
-			'bg-white checked:bg-green-600 checked:border-green-500 border-gray-300'
-		  }
+        settings.theme === "dark"
+          ? "bg-slate-600 checked:bg-green-700 checked:border-green-600 border-slate-500"
+          : "bg-white checked:bg-green-600 checked:border-green-500 border-gray-300"
+      }
 
 		  focus:outline-none  
 		  mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-3 ml-1 cursor-pointer " 
@@ -181,14 +185,20 @@ function renderTask(task) {
 		  transform: scale(1.5);
 		  margin-top: auto;
 		  margin-bottom: auto;
-		  " onclick="checkboxClicked('${task.id}', checked);" ${task.isChecked ? 'checked' : ''}>
+		  " onclick="checkboxClicked('${task.id}', checked);" ${
+    task.isChecked ? "checked" : ""
+  }>
 		  <label class="form-check-label inline-block pl-1 pr-2 
 		  
 		  ${
-			(settings.theme === 'dark') ? 
-			(task.isChecked ? 'text-green-300' : 'text-gray-400') : 
-			(task.isChecked ? 'text-green-800' : 'text-gray-700')
-		}
+        settings.theme === "dark"
+          ? task.isChecked
+            ? "text-green-300"
+            : "text-gray-400"
+          : task.isChecked
+          ? "text-green-800"
+          : "text-gray-700"
+      }
 		 
 		  flex-1" 
 		  style="
@@ -205,10 +215,14 @@ function renderTask(task) {
 		  style="margin-top: auto; margin-bottom: auto;"
 		  class="
 		  ${
-			(settings.theme === 'dark') ? 
-			(task.isChecked ? 'bg-gray-900 text-gray-400 hover:bg-gray-800 hover:text-white' : 'bg-gray-900 text-gray-400 hover:bg-gray-700 hover:text-white') : 
-			(task.isChecked ? 'bg-gray-500 text-gray-100 hover:bg-gray-600' : 'bg-gray-500 text-gray-100 hover:bg-gray-600')
-		}
+        settings.theme === "dark"
+          ? task.isChecked
+            ? "bg-gray-900 text-gray-400 hover:bg-gray-800 hover:text-white"
+            : "bg-gray-900 text-gray-400 hover:bg-gray-700 hover:text-white"
+          : task.isChecked
+          ? "bg-gray-500 text-gray-100 hover:bg-gray-600"
+          : "bg-gray-500 text-gray-100 hover:bg-gray-600"
+      }
 		 
 		  inline-block rounded-full text-white leading-normal uppercase shadow-md 
 		  hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 
@@ -222,118 +236,119 @@ function renderTask(task) {
 	
 		</div>
 	  </div>`;
-	
-	  container.innerHTML = html + container.innerHTML;
-};
+
+  container.innerHTML = html + container.innerHTML;
+}
 
 // Render list of all tasks
 function renderTasks() {
-	const container = document.getElementById('task-list');
-	container.innerHTML = '';
+  const container = document.getElementById("task-list");
+  container.innerHTML = "";
 
-	for (const task of tasks) {
-		renderTask(task);
-	};
-};
+  for (const task of tasks) {
+    renderTask(task);
+  }
+}
 
 // Add a task when input box is active and Enter is pressed
-document.getElementsByClassName('form-control')[0].addEventListener("keydown", () => {
-	if(window.event.keyCode=='13'){
-        addTaskBtn();
+document
+  .getElementsByClassName("form-control")[0]
+  .addEventListener("keydown", () => {
+    if (window.event.keyCode == "13") {
+      addTaskBtn();
     }
-});
+  });
 
 function loadSettings() {
-	if (localStorage.getItem('settings')) {
-		settings = JSON.parse(localStorage.getItem('settings'));
-	} else {
-		localStorage.setItem('settings', JSON.stringify(settings))
-	}
+  if (localStorage.getItem("settings")) {
+    settings = JSON.parse(localStorage.getItem("settings"));
+  } else {
+    localStorage.setItem("settings", JSON.stringify(settings));
+  }
 }
 
 function saveSettings() {
-	localStorage.setItem('settings', JSON.stringify(settings))
+  localStorage.setItem("settings", JSON.stringify(settings));
 }
 
 function changeThemeBtn() {
-	settings.theme === 'dark' ? settings.theme = 'light' : settings.theme = 'dark';
-	saveSettings();
-	changeTheme();
+  settings.theme === "dark"
+    ? (settings.theme = "light")
+    : (settings.theme = "dark");
+  saveSettings();
+  changeTheme();
 }
 
 function changeTheme() {
-	const body = document.querySelector('body');
-	const container = document.querySelector('main');
-	const taskInput = document.querySelector('input.form-control');
-	const themeBtn = document.querySelectorAll('button.themebtn');
-	const modalContainer = document.querySelector('div.modal-content');
-	const modalCloseBtn = document.querySelector('button.modalclose');
-	const modalTitle = document.querySelector('h5.modal-title');
-	const modalHeader = document.querySelector('div.modal-header');
-	const modalBody = document.querySelector('div.modal-body');
+  const body = document.querySelector("body");
+  const container = document.querySelector("main");
+  const taskInput = document.querySelector("input.form-control");
+  const themeBtn = document.querySelectorAll("button.themebtn");
+  const modalContainer = document.querySelector("div.modal-content");
+  const modalCloseBtn = document.querySelector("button.modalclose");
+  const modalTitle = document.querySelector("h5.modal-title");
+  const modalHeader = document.querySelector("div.modal-header");
+  const modalBody = document.querySelector("div.modal-body");
 
-	if (settings.theme === 'dark') {
-		body.classList.remove('body-bg-light');
-		body.classList.add('body-bg-dark');
+  if (settings.theme === "dark") {
+    body.classList.remove("body-bg-light");
+    body.classList.add("body-bg-dark");
 
-		container.classList.remove('bg-white');
-		container.classList.add('bg-slate-900');
+    container.classList.remove("bg-white");
+    container.classList.add("bg-slate-900");
 
-		taskInput.classList.remove('bg-white');
-		taskInput.classList.add('bg-slate-600');
-		taskInput.classList.add('focus:bg-slate-700');
-		taskInput.classList.remove('focus:bg-white');
-		taskInput.classList.add('text-white');
-		taskInput.classList.remove('text-gray-700');
-		taskInput.classList.add('focus:text-gray-200');
-		taskInput.classList.remove('focus:text-gray-700');
-		taskInput.classList.add('border-slate-500');
-		taskInput.classList.remove('border-slate-300');
+    taskInput.classList.remove("bg-white");
+    taskInput.classList.add("bg-slate-600");
+    taskInput.classList.add("focus:bg-slate-700");
+    taskInput.classList.remove("focus:bg-white");
+    taskInput.classList.add("text-white");
+    taskInput.classList.remove("text-gray-700");
+    taskInput.classList.add("focus:text-gray-200");
+    taskInput.classList.remove("focus:text-gray-700");
+    taskInput.classList.add("border-slate-500");
+    taskInput.classList.remove("border-slate-300");
 
-		themeBtn[0].innerHTML =
-		`<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+    themeBtn[0].innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
 		class="w-6 h-6 mr-2" style="margin: auto;">
 			<path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" class="stroke-white dark:stroke-white"></path>
 			<path d="M12 4v1M17.66 6.344l-.828.828M20.005 12.004h-1M17.66 17.664l-.828-.828M12 
 			20.01V19M6.34 17.664l.835-.836M3.995 12.004h1.01M6 6l.835.836" class="stroke-white dark:stroke-white"></path>
-		</svg>`
+		</svg>`;
 
-		modalBody.classList.remove('text-gray-800');
-		modalBody.classList.add('text-gray-400');
-		modalTitle.classList.remove('text-gray-800');
-		modalTitle.classList.add('text-gray-200');
-		modalHeader.classList.remove('border-gray-200');
-		modalHeader.classList.add('border-gray-700');
-		modalContainer.classList.remove('bg-white');
-		modalContainer.classList.add('bg-gray-800');
-		modalCloseBtn.classList.remove('bg-gray-500');
-		modalCloseBtn.classList.remove('text-gray-100');
-		modalCloseBtn.classList.remove('hover:bg-gray-600');
-		modalCloseBtn.classList.add('bg-gray-900');
-		modalCloseBtn.classList.add('text-gray-400');
-		modalCloseBtn.classList.add('hover:bg-gray-700');
-		modalCloseBtn.classList.add('hover:text-white');
+    modalBody.classList.remove("text-gray-800");
+    modalBody.classList.add("text-gray-400");
+    modalTitle.classList.remove("text-gray-800");
+    modalTitle.classList.add("text-gray-200");
+    modalHeader.classList.remove("border-gray-200");
+    modalHeader.classList.add("border-gray-700");
+    modalContainer.classList.remove("bg-white");
+    modalContainer.classList.add("bg-gray-800");
+    modalCloseBtn.classList.remove("bg-gray-500");
+    modalCloseBtn.classList.remove("text-gray-100");
+    modalCloseBtn.classList.remove("hover:bg-gray-600");
+    modalCloseBtn.classList.add("bg-gray-900");
+    modalCloseBtn.classList.add("text-gray-400");
+    modalCloseBtn.classList.add("hover:bg-gray-700");
+    modalCloseBtn.classList.add("hover:text-white");
+  } else {
+    body.classList.add("body-bg-light");
+    body.classList.remove("body-bg-dark");
 
-	} else {
-		body.classList.add('body-bg-light');
-		body.classList.remove('body-bg-dark');
+    container.classList.add("bg-white");
+    container.classList.remove("bg-slate-900");
 
-		container.classList.add('bg-white');
-		container.classList.remove('bg-slate-900');
+    taskInput.classList.add("bg-white");
+    taskInput.classList.remove("bg-slate-600");
+    taskInput.classList.remove("focus:bg-slate-700");
+    taskInput.classList.add("focus:bg-white");
+    taskInput.classList.remove("text-white");
+    taskInput.classList.add("text-gray-700");
+    taskInput.classList.remove("focus:text-gray-200");
+    taskInput.classList.add("focus:text-gray-700");
+    taskInput.classList.remove("border-slate-500");
+    taskInput.classList.add("border-slate-300");
 
-		taskInput.classList.add('bg-white');
-		taskInput.classList.remove('bg-slate-600');
-		taskInput.classList.remove('focus:bg-slate-700');
-		taskInput.classList.add('focus:bg-white');
-		taskInput.classList.remove('text-white');
-		taskInput.classList.add('text-gray-700');
-		taskInput.classList.remove('focus:text-gray-200');
-		taskInput.classList.add('focus:text-gray-700');
-		taskInput.classList.remove('border-slate-500');
-		taskInput.classList.add('border-slate-300');
-
-		themeBtn[0].innerHTML =
-		`<svg viewBox="0 0 24 24" fill="none" class="w-6 h-6 mr-2"  style="margin: auto;">
+    themeBtn[0].innerHTML = `<svg viewBox="0 0 24 24" fill="none" class="w-6 h-6 mr-2"  style="margin: auto;">
 			<path fill-rule="evenodd" clip-rule="evenodd" d="M17.715 15.15A6.5 6.5 0 0 1 9 
 			6.035C6.106 6.922 4 9.645 4 12.867c0 3.94 3.153 7.136 7.042 7.136 3.101 0 5.734-2.032 6.673-4.853Z" 
 			class="fill-sky-400/20"></path>
@@ -347,44 +362,41 @@ function changeTheme() {
 			<path fill-rule="evenodd" clip-rule="evenodd" d="M17 3a1 1 0 0 1 1 1 2 2 0 0 0 2 2 1 1 0 1 1 0 2 
 			2 2 0 0 0-2 2 1 1 0 1 1-2 0 2 2 0 0 0-2-2 1 1 0 1 1 0-2 2 2 0 0 0 2-2 1 1 0 0 1 1-1Z" 
 			class="fill-white"></path>
-		</svg>`
+		</svg>`;
 
-		modalBody.classList.add('text-gray-800');
-		modalBody.classList.remove('text-gray-400');
-		modalTitle.classList.add('text-gray-800');
-		modalTitle.classList.remove('text-gray-200');
-		modalHeader.classList.add('border-gray-200');
-		modalHeader.classList.remove('border-gray-700');
-		modalContainer.classList.add('bg-white');
-		modalContainer.classList.remove('bg-gray-800');
-		modalCloseBtn.classList.add('bg-gray-500');
-		modalCloseBtn.classList.add('text-gray-100');
-		modalCloseBtn.classList.add('hover:bg-gray-600');
-		modalCloseBtn.classList.remove('bg-gray-900');
-		modalCloseBtn.classList.remove('text-gray-400');
-		modalCloseBtn.classList.remove('hover:bg-gray-700');
-		modalCloseBtn.classList.remove('hover:text-white');
-	}
+    modalBody.classList.add("text-gray-800");
+    modalBody.classList.remove("text-gray-400");
+    modalTitle.classList.add("text-gray-800");
+    modalTitle.classList.remove("text-gray-200");
+    modalHeader.classList.add("border-gray-200");
+    modalHeader.classList.remove("border-gray-700");
+    modalContainer.classList.add("bg-white");
+    modalContainer.classList.remove("bg-gray-800");
+    modalCloseBtn.classList.add("bg-gray-500");
+    modalCloseBtn.classList.add("text-gray-100");
+    modalCloseBtn.classList.add("hover:bg-gray-600");
+    modalCloseBtn.classList.remove("bg-gray-900");
+    modalCloseBtn.classList.remove("text-gray-400");
+    modalCloseBtn.classList.remove("hover:bg-gray-700");
+    modalCloseBtn.classList.remove("hover:text-white");
+  }
 
-	renderTasks()
+  renderTasks();
 }
 
 function loadModal(title, content) {
-	document.querySelector('h5.modal-title').innerHTML = title;
-	document.querySelector('div.modal-body').innerHTML = content;
+  document.querySelector("h5.modal-title").innerHTML = title;
+  document.querySelector("div.modal-body").innerHTML = content;
 }
 
 function loadChangelogModal() {
-	let title = 'Changelog'
-	let content = `
-	<strong>Version 0.04 - </strong> 
+  let title = "Changelog";
+  let content = `
+	<strong>Version 0.04 - 11.02.2023</strong><br>
 	<strong style="color: 
 	${
-		(settings.theme === 'dark') ? 
-		'rgb(0 255 64);' : 
-		'#005aff'
-	}">Tasks Sharing Update</strong>
-	<strong> - 11.02.2023</strong>
+    settings.theme === "dark" ? "rgb(0 255 64);" : "#005aff"
+  }">Tasks Sharing Update</strong>
 	<ul class="pl-5" style="list-style: disc;">
 	  <li>Implemented URL sharing</li>
 	  <li><strong style="color: #ef3535">Known issue:</strong> Too long task-lists can cause issues due to long URL</li>
@@ -416,7 +428,34 @@ function loadChangelogModal() {
 	<ul class="pl-5" style="list-style: disc;">
 	  <li>Basic functionality</li>
 	</ul>
-	`
+	`;
 
-	loadModal(title, content)
+  loadModal(title, content);
+}
+
+// When the user scrolls down 150px from the top of the document, show the button
+window.onscroll = function () {
+  if (
+    document.body.scrollTop > 150 ||
+    document.documentElement.scrollTop > 150
+  ) {
+    toggleToTopVisibility(true);
+  } else {
+    toggleToTopVisibility(false);
+  }
+};
+
+function toggleToTopVisibility(isVisible) {
+  if (isVisible) {
+	GO_TO_TOP_BUTTON.classList.add("opacity-100");
+    GO_TO_TOP_BUTTON.classList.remove("opacity-0");
+  } else {
+    GO_TO_TOP_BUTTON.classList.add("opacity-0");
+    GO_TO_TOP_BUTTON.classList.remove("opacity-100");
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function goToTop() {
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
