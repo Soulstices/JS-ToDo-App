@@ -484,11 +484,9 @@ window.onscroll = function () {
 
 function toggleToTopVisibility(isVisible) {
   if (isVisible) {
-    GO_TO_TOP_BUTTON.classList.add("opacity-100");
-    GO_TO_TOP_BUTTON.classList.remove("opacity-0");
+    GO_TO_TOP_BUTTON.classList.remove("hidden");
   } else {
-    GO_TO_TOP_BUTTON.classList.add("opacity-0");
-    GO_TO_TOP_BUTTON.classList.remove("opacity-100");
+    GO_TO_TOP_BUTTON.classList.add("hidden");
   }
 }
 
