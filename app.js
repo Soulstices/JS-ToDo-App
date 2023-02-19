@@ -224,8 +224,8 @@ function renderTask(task) {
           : "bg-gray-500 text-gray-100 hover:bg-gray-600"
       }
 		 
-		  inline-block rounded-full text-white leading-normal uppercase shadow-md 
-		  hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 
+		  inline-block rounded-full leading-normal uppercase shadow-md 
+		  hover:shadow-lg focus:shadow-lg focus:outline-none border-none !outline-none focus:ring-0 
 		  active:shadow-lg transition duration-150 ease-in-out w-9 h-9">
 		  <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 12 16" height="16px" width="16px" 
 		  xmlns="http://www.w3.org/2000/svg" 
