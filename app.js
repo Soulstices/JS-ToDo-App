@@ -170,8 +170,14 @@ function renderTask(task) {
     }
 
 		 form-check w-full div-${task.id}">
+
 		  <input class="checkbox-${task.id} 
 		  form-check-input appearance-none h-4 w-4 border rounded-sm 
+
+      checked:after:m-[0.1rem] checked:after:ml-[0.275rem] 
+      checked:after:block checked:after:h-[0.5rem] checked:after:w-[0.35rem] 
+      checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-t-0 
+      checked:after:border-l-0 
 
 		  ${
         settings.theme === "dark"
